@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dream Villa VR Experience</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/aframe-extras.min.js"></script>
+  <script>
+    AFRAME.registerComponent('water-motion', {
+      schema: { speed: {default: 0.002}, amplitude: {default: 0.05} },
+      tick: function (time, deltaTime) {
+        this.el.object3D.position.y = 0.35 + Math.sin(time * this.data.speed) * this.data.amplitude;
+      }
+    });
+  </script>
+  <script>
+  AFRAME.registerComponent('go-upstairs', {
+    init: function () {
+      this.el.addEventListener('click', () => {
+        // Find the camera rig and move it to the first floor height
+        document.querySelector('#rig').setAttribute('position', '0 5.8 0');
+      });
+    }
+  });
+  window.addEventListener('keydown', function (event) {
+  const rig = document.querySelector('#rig');
+  
+  // Press 'U' to go UP to the 1st Floor
+  if (event.key.toLowerCase() === 'u') {
+    rig.setAttribute('position', {x: 0, y: 5.8, z: 0});
+  }
+  
+  // Press 'D' to go DOWN to the Ground Floor
+  if (event.key.toLowerCase() === 'd') {
+    rig.setAttribute('position', {x: 0, y: 1.6, z: 20});
+  }
+});
+</script>
+</head>
+
+<body>
+  <a-scene shadow="type: pcfsoft" renderer="antialias: true; colorManagement: true">
+
+    <a-assets>
+      <img id="grassTex" src="assets/greengrass.avif">
+      <img id="wallTex" src="assets/indoorwall.jpg">
+      <img id="skyTex" src="assets/sky.jpg">
+      <img id="floorTex" src="assets/woodenfloor.jpg">
+      <img id="waterTex" src="assets/swimmingpool.jpg"> 
+
+
+      <a-asset-item id="doorModel" src="models/Door Double.glb"></a-asset-item>
+      <a-asset-item id="stairsModel" src="models/Stairs Open Single.glb"></a-asset-item>
+        <a-asset-item id="treeModel" src="models/Tree.glb"></a-asset-item>
+        <a-asset-item id="resortSet" src="models/Umbrella and chairs.glb"></a-asset-item>
+      <a-asset-item id="lamborghini" src="models/CAR Model.glb"></a-asset-item>
+<a-asset-item id="ferrari" src="models/Ferrari F40.glb"></a-asset-item>
+<a-asset-item id="hoopModel" src="models/Basketball court.glb"></a-asset-item>
+<a-asset-item id="fenceModel" src="models/basketballfence.glb"></a-asset-item>
+<a-asset-item id="gardenModel" src="models/Garden.glb"></a-asset-item>
+<a-asset-item id="dogModel" src="models/Dog.glb"></a-asset-item>
+<a-asset-item id="trampolineModel" src="models/Trampoline.glb"></a-asset-item>
+<a-asset-item id="swingModel" src="models/Swing set.glb"></a-asset-item>
+<a-asset-item id="playStructureModel" src="models/Play Structure.glb"></a-asset-item>
+<a-asset-item id="kitchenModel" src="models/Kitchen.glb"></a-asset-item>
+<a-asset-item id="sinkModel" src="models/Steel Sink Kitchen Cabinet.glb"></a-asset-item>
+<a-asset-item id="diningModel" src="models/Dining Set.glb"></a-asset-item>
+<a-asset-item id="couchModel" src="models/Couch.glb"></a-asset-item>
+<a-asset-item id="tvModel" src="models/Flat Screen TV.glb"></a-asset-item>
+<a-asset-item id="coffeeTableModel" src="models/Coffee Table.glb"></a-asset-item>
+<a-asset-item id="ceilingLightModel" src="models/Ceiling Light.glb"></a-asset-item>
+<a-asset-item id="speakersModel" src="models/Speakers.glb"></a-asset-item>
+<a-asset-item id="barModel" src="models/Bar scene.glb"></a-asset-item>
+<a-asset-item id="stairsModel" src="models/Stairs Open Single.glb"></a-asset-item>
+<a-asset-item id="newDeskModel" src="models/newdesk.glb"></a-asset-item>
+<a-asset-item id="bathroomModel" src="models/Bathroom.glb"></a-asset-item>
+<a-asset-item id="bedModel" src="models/newbed.glb"></a-asset-item>
+    </a-assets>
+
+    <a-sky src="#skyTex"></a-sky>
+    <a-entity light="type: ambient; intensity: 0.7"></a-entity>
+    <a-entity light="type: directional; intensity: 1.2; castShadow: true" position="50 30 70"></a-entity>
+
+    <a-plane rotation="-90 0 0" width="1000" height="1000" src="#grassTex" repeat="200 200" shadow="receive: true"></a-plane>
+
+    <a-entity id="swimming-pool" position="0 0 24">
+  
+  <a-box width="24" height="0.15" depth="20" 
+         src="#wallTex" repeat="10 8" color="#fff" shadow></a-box> 
+
+  <a-box width="16" height="0.2" depth="12" color="#444" position="0 0.05 0"></a-box>
+
+  <a-plane rotation="-90 0 0" width="15.5" height="11.5" position="0 0.2 0" 
+           material="src: #waterTex; opacity: 0.7; transparent: true; repeat: 4 3"
+           water-motion="speed: 0.002; amplitude: 0.03">
+  </a-plane>
+
+ <a-entity id="pool-furniture">
+  
+  <a-entity gltf-model="#resortSet" 
+            position="-10 1.1 -2" 
+            scale="0.006 0.006 0.006" 
+            rotation="0 90 0" 
+            shadow="cast: true"></a-entity>
+
+  <a-entity gltf-model="#resortSet" 
+            position="-10 1.1 6" 
+            scale="0.006 0.006 0.006" 
+            rotation="0 90 0" 
+            shadow="cast: true"></a-entity>
+
+  <a-entity gltf-model="#resortSet" 
+            position="10 1.1 -2" 
+            scale="0.006 0.006 0.006" 
+            rotation="0 -90 0" 
+            shadow="cast: true"></a-entity>
+
+  <a-entity gltf-model="#resortSet" 
+            position="10 1.1 6" 
+            scale="0.006 0.006 0.006" 
+            rotation="0 -90 0" 
+            shadow="cast: true"></a-entity>
+
+</a-entity>
+</a-entity>
+    <a-entity gltf-model="#villaModel" position="0 0 0" scale="1 1 1" shadow="cast: true; receive: true"></a-entity>
+
+      
+      <a-entity environment="preset: dream; groundColor: #1a1a1a; dressing: trees; dressingAmount: 15; lighting: point"></a-entity>
+
+ <a-entity id="basketball-complex" position="40 0.05 0">
+  
+  <a-entity gltf-model="#hoopModel" shadow="receive: true"></a-entity>
+
+  <a-entity gltf-model="#fenceModel" position="-3.7 0.3 -14.7" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="3.7 0.3 -14.7" shadow></a-entity>
+
+  <a-entity gltf-model="#fenceModel" position="-3.7 0.3 14.7" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="3.7 0.3 14.7" shadow></a-entity>
+
+  <a-entity gltf-model="#fenceModel" position="-7.6 0.3 -11.1" rotation="0 90 0" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="-7.6 0.3 -3.7" rotation="0 90 0" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="-7.6 0.3 3.7" rotation="0 90 0" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="-7.6 0.3 11.1" rotation="0 90 0" shadow></a-entity>
+
+  <a-entity gltf-model="#fenceModel" position="7.6 0.3 -11.1" rotation="0 90 0" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="7.6 0.3 -3.7" rotation="0 90 0" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="7.6 0.3 3.7" rotation="0 90 0" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="7.6 0.3 11.1" rotation="0 90 0" shadow></a-entity>
+
+</a-entity>
+
+<a-entity id="ground-floor">
+        <a-box position="0 0.1 -10" width="30" height="0.2" depth="30" src="#floorTex" repeat="10 10" shadow="receive: true"></a-box>
+        <a-box position="0 2 -25" width="30" height="4" depth="0.1" material="opacity: 0.2; transparent: true; color: #afeeee"></a-box>
+
+      </a-entity>
+
+  
+<a-entity gltf-model="#doorModel" position="0 0.1 5.1" scale="0.8 0.8 0.8" shadow="cast: true"></a-entity>
+
+
+
+      <a-box position="0 4.1 -10" width="32" height="0.2" depth="32" src="#floorTex" repeat="12 12" shadow></a-box>
+
+      <a-entity id="first-floor" position="0 4.2 0">
+        
+
+        <a-box position="0 0.1 2" width="20" height="0.1" depth="6" src="#floorTex" repeat="12 12"></a-box>
+        <a-box position="0 0.6 4.9" width="20" height="1.2" depth="0.05" material="opacity: 0.6; transparent: true; color: #fff"></a-box>
+      </a-entity>
+
+      <a-box position="0 8.5 -10" width="34" height="0.3" depth="34" color="#ffffff" shadow></a-box>
+
+      <a-light type="ambient" intensity="0.5"></a-light>
+      <a-light type="point" position="0 12 -10" intensity="0.7" color="#fff" castShadow="true"></a-light>
+      
+      <a-entity id="rig" position="0 1.6 20">
+        <a-camera look-controls wasd-controls="acceleration: 20"></a-camera>
+      </a-entity>
+
+      <a-entity id="exterior-walls">
+  <a-box position="-15 4.25 -10" width="0.2" height="8.5" depth="30" 
+         src="#wallTex" repeat="4 2" shadow></a-box>
+
+ 
+  <a-box position="15 4.25 -10" width="0.2" height="8.5" depth="30" 
+         src="#wallTex" repeat="4 2" shadow></a-box>
+
+         
+  
+  <a-box position="0 4.25 -25" width="30" height="8.5" depth="0.2" 
+         src="#wallTex" repeat="4 2" shadow></a-box>
+         
+
+</a-entity>
+
+<a-entity id="kitchen-suite" 
+          gltf-model="#kitchenModel" 
+          position="-8.5 1.3 -7.5" 
+          scale="8 3 6" 
+          rotation="0 0 0" 
+          shadow="cast: true; receive: true">
+</a-entity>
+
+<a-entity id="kitchen-sink" 
+          gltf-model="#sinkModel" 
+          position="-14 1 -8" 
+          scale="2 1 2" 
+          rotation="0 90 0" 
+          shadow="cast: true; receive: true">
+</a-entity>
+
+<a-entity id="dining-set-area" 
+          gltf-model="#diningModel" 
+          position="-20 -0 10" 
+          scale="0.04 0.04 0.04" 
+          shadow="cast: true; receive: true">
+</a-entity>
+
+<a-entity id="living-room-area">
+  
+  <a-entity id="couch-1" gltf-model="#couchModel" position="-9.2 0.1 3.5" scale="0.05 0.05 0.05" rotation="0 0 0"></a-entity>
+  <a-entity id="couch-2" gltf-model="#couchModel" position="24 0.1 -7.5" scale="0.05 0.05 0.05" rotation="0 180 0"></a-entity>
+  <a-entity id="couch-3" gltf-model="#couchModel" position="14.5 0.1 15.5" scale="0.05 0.05 0.05" rotation="0 90 0"></a-entity>
+
+  <a-entity gltf-model="#coffeeTableModel" position="7.8 0.1 -3" scale="3 3 3"></a-entity>
+
+  <a-entity id="tv-setup" position="14.5 1.5 -3" rotation="0 -90 0">
+    <a-entity gltf-model="#tvModel" scale="1 1 1"></a-entity>
+    <a-entity gltf-model="#speakersModel" position="-3.5 -0.8 0" scale="0.8 0.8 0.8"></a-entity>
+    <a-entity gltf-model="#speakersModel" position="2 -0.8 0" scale="0.8 0.8 0.8"></a-entity>
+  </a-entity>
+
+  <a-entity gltf-model="#ceilingLightModel" position="7.8 3.8 -3" scale="1 1 1"></a-entity>
+  <a-light type="point" position="7.8 3.5 -3" intensity="0.5" distance="10" color="#fff"></a-light>
+</a-entity>
+
+<a-entity id="ground-floor-distinctions">
+  <a-box position="0 2 -10" width="0.2" height="4" depth="30" src="#wallTex" repeat="4 2"></a-box>
+
+  <a-box position="-8 2 -10" width="14" height="4" depth="0.2" src="#wallTex"></a-box>
+  <a-box position="8 2 -10" width="14" height="4" depth="0.2" src="#wallTex"></a-box>
+  
+  </a-entity>
+
+<a-entity id="first-floor-distinctions" position="0 4.2 0">
+  <a-box position="0 2 -10" width="0.2" height="4" depth="30" src="#wallTex" repeat="4 2"></a-box>
+
+  <a-box position="-8 2 -10" width="14" height="4" depth="0.2" src="#wallTex"></a-box>
+  <a-box position="8 2 -10" width="14" height="4" depth="0.2" src="#wallTex"></a-box>
+</a-entity>
+
+<a-entity id="glass-front">
+  <a-plane position="0 4.25 5" width="30" height="8.5" 
+           material="color: #afeeee; opacity: 0.4; transparent: true; side: double" 
+           rotation="0 0 0"></a-plane>
+</a-entity>
+
+<a-entity id="bar-area" 
+          gltf-model="#barModel" 
+          position="8.5 4 -3" 
+          scale="0.6 0.6 0.6" 
+          rotation="0 -90 0" 
+          shadow="cast: true; receive: true">
+  
+  <a-light type="point" position="0 5 0" intensity="0.6" color="#ffaa00" distance="10"></a-light>
+</a-entity>
+
+<a-entity id="main-staircase" 
+          gltf-model="#stairsModel" 
+          position="2 0 -5.5" 
+          scale="3 3 3" 
+          rotation="0 180 0" 
+          shadow="cast: true; receive: true">
+</a-entity>
+
+  <a-entity id="office-suite" position="-8.5 4 3">
+  
+  <a-entity gltf-model="#newDeskModel" 
+            position="4 0 -2" 
+            scale="2 2 2" 
+            rotation="0 180 0" 
+            shadow="cast: true; receive: true">
+  </a-entity>
+
+  <a-light type="point" position="3 2.5 -5" intensity="0.5" color="#ffffff" distance="8"></a-light>
+</a-entity>
+<a-entity id="master-suite" position="-8 4.3 -12">
+  
+  <a-entity id="actual-bed"
+            gltf-model="#bedModel" 
+            position="0 0.1 0" 
+            scale="0.05 0.05 0.05" 
+            rotation="0 180 0"
+            shadow="cast: true">
+  </a-entity>
+
+  <a-entity id="actual-bathroom"
+            gltf-model="#bathroomModel" 
+            position="4.5 0 2" 
+            scale="0.12 0.12 0.12" 
+            rotation="0 -90 0"
+            shadow="cast: true">
+  </a-entity>
+  
+  <a-light type="point" position="0 3 2" intensity="0.5" distance="10" color="#fff"></a-light>
+</a-entity>
+
+<a-entity id="garages">
+  
+  <a-entity id="garage-right" position="22 0 -10">
+    <a-box position="-3.5 2 3.5" width="0.3" height="4" depth="0.3" color="#333"></a-box>
+    <a-box position="3.5 2 3.5" width="0.3" height="4" depth="0.3" color="#333"></a-box>
+    <a-box position="-3.5 2 -3.5" width="0.3" height="4" depth="0.3" color="#333"></a-box>
+    <a-box position="3.5 2 -3.5" width="0.3" height="4" depth="0.3" color="#333"></a-box>
+    
+    <a-box position="0 4.1 0" width="8.5" height="0.2" depth="8.5" color="#222" shadow></a-box>
+    
+    <a-plane position="0 0.02 0" rotation="-90 0 0" width="8" height="8" color="#444" material="roughness: 0.2"></a-plane>
+  </a-entity>
+
+  <a-entity id="garage-left" position="-22 0 -10">
+    <a-box position="-3.5 2 3.5" width="0.3" height="4" depth="0.3" color="#333"></a-box>
+    <a-box position="3.5 2 3.5" width="0.3" height="4" depth="0.3" color="#333"></a-box>
+    <a-box position="-3.5 2 -3.5" width="0.3" height="4" depth="0.3" color="#333"></a-box>
+    <a-box position="3.5 2 -3.5" width="0.3" height="4" depth="0.3" color="#333"></a-box>
+    
+    <a-box position="0 4.1 0" width="8.5" height="0.2" depth="8.5" color="#222" shadow></a-box>
+    
+    <a-plane position="0 0.02 0" rotation="-90 0 0" width="8" height="8" color="#444" material="roughness: 0.2"></a-plane>
+  </a-entity>
+</a-entity>
+
+<a-entity id="garage-cars">
+  
+  <a-entity gltf-model="#lamborghini" 
+            position="22 0.15 -10" 
+            scale="0.015 0.015 0.015" 
+            rotation="0 180 0" 
+            shadow="cast: true"></a-entity>
+
+  <a-entity gltf-model="#ferrari" 
+            position="-22 0.1 -10" 
+            scale="0.8 0.8 0.8" 
+            rotation="0 0 0" 
+            shadow="cast: true"></a-entity>
+
+</a-entity>
+
+<a-entity id="playground-complex" position="-50 0 -50">
+  
+  <a-plane position="0 0.03 0" rotation="-90 0 0" width="35" height="15" color="#b0b5b1" material="roughness: 1"></a-plane>
+
+  <a-entity gltf-model="#trampolineModel" position="-12 0 0" scale="0.6 0.6 0.6" shadow="cast: true"></a-entity>
+  <a-entity gltf-model="#swingModel" position="-4 0.1 0" scale="0.04 0.04 0.04" rotation="0 90 0" shadow="cast: true"></a-entity>
+  <a-entity gltf-model="#playStructureModel" position="8 2.3 -2" scale="2 2 2" rotation="0 -90 0" shadow="cast: true"></a-entity>
+
+  <a-entity gltf-model="#fenceModel" position="-14.8 0.3 -7.5" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="-7.4 0.3 -7.5" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="0 0.3 -7.5" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="7.4 0.3 -7.5" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="14.8 0.3 -7.5" shadow></a-entity>
+
+  <a-entity gltf-model="#fenceModel" position="-14.8 0.3 7.5" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="-7.4 0.3 7.5" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="0 0.3 7.5" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="7.4 0.3 7.5" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="14.8 0.3 7.5" shadow></a-entity>
+
+  <a-entity gltf-model="#fenceModel" position="-17.5 0.3 -3.7" rotation="0 90 0" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="-17.5 0.3 3.7" rotation="0 90 0" shadow></a-entity>
+
+  <a-entity gltf-model="#fenceModel" position="17.5 0.3 -3.7" rotation="0 90 0" shadow></a-entity>
+  <a-entity gltf-model="#fenceModel" position="17.5 0.3 3.7" rotation="0 90 0" shadow></a-entity>
+
+</a-entity>
+
+<a-entity id="estate-forest">
+
+  <a-entity gltf-model="#treeModel" position="0 0 -95" scale="5 7 5" rotation="0 15 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="25 0 -110" scale="4 6 4" rotation="0 45 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="-30 0 -105" scale="6 8 6" rotation="0 -30 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="65 0 -120" scale="5 7 5" rotation="0 180 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="-75 0 -130" scale="4 6 4" rotation="0 90 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="-110 0 -100" scale="5 7 5" rotation="0 20 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="115 0 -115" scale="6 8 6" rotation="0 -15 0"></a-entity>
+
+  <a-entity gltf-model="#treeModel" position="-85 0 20" scale="4 5 4" rotation="0 10 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="-100 0 -20" scale="3 4 3" rotation="0 120 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="-120 0 -50" scale="5 6 5" rotation="0 -60 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="-130 0 50" scale="4 5 4" rotation="0 200 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="-90 0 80" scale="4 6 4" rotation="0 10 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="-105 0 10" scale="5 7 5" rotation="0 150 0"></a-entity>
+
+  <a-entity gltf-model="#treeModel" position="95 0 25" scale="4 6 4" rotation="0 -15 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="85 0 -45" scale="3 5 3" rotation="0 75 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="110 0 -85" scale="5 7 5" rotation="0 150 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="130 0 45" scale="4 6 4" rotation="0 -100 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="100 0 90" scale="5 7 5" rotation="0 45 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="125 0 0" scale="4 5 4" rotation="0 190 0"></a-entity>
+
+  <a-entity gltf-model="#treeModel" position="-60 0 110" scale="4 5 4" rotation="0 10 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="70 0 120" scale="5 6 5" rotation="0 -45 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="-110 0 130" scale="4 6 4" rotation="0 180 0"></a-entity>
+  <a-entity gltf-model="#treeModel" position="110 0 135" scale="5 7 5" rotation="0 90 0"></a-entity>
+
+</a-entity>
+
+</a-entity>
+
+<a-entity id="garden-complex" position="-50 0 10">
+  
+  <a-entity gltf-model="#gardenModel" scale="0.6 0.6 0.6" shadow="receive: true"></a-entity>
+
+  <a-entity gltf-model="#dogModel" 
+            position="7 1.7 10" 
+            scale="1 0.5 1" 
+            rotation="0 -45 0" 
+            shadow="cast: true"></a-entity>
+
+</a-entity>
+
+<a-box 
+  id="mansion-roof"
+  position="0 8.5 -10" 
+  width="34" 
+  height="0.3" 
+  depth="34" 
+  color="#333333" 
+  material="roughness: 0.8; metalness: 0.2"
+  shadow="cast: true; receive: true">
+</a-box>
+    </a-scene>
+  </body>
+</html>
+
+
+
+
+
+  </a-scene>
+</body>
+</html>
